@@ -1,0 +1,21 @@
+{
+    "name": "setasign/fpdf",
+    "version": "1.7",
+    "homepage": "http://www.fpdf.org",
+    "description": "FPDF is a PHP class which allows to generate PDF files with pure PHP. F from FPDF stands for Free: you may use it for any kind of usage and modify it to suit your needs.",
+    "type": "library",
+    "keywords": ["pdf", "fpdf"],
+    "license": "no usage restriction",
+    "authors": [
+        {
+            "name": "Olivier Plathey",
+            "email": "oliver@fpdf.org",
+            "homepage": "http://fpdf.org/"
+        }
+    ],
+    "autoload": {
+        "classmap": [
+            "fpdf.php"
+        ]
+    }
+}
