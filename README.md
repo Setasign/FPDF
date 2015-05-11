@@ -4,7 +4,7 @@
 
 FPDF is a PHP class which allows to generate PDF files with pure PHP. F from FPDF stands for Free: you may use it for any kind of usage and modify it to suit your needs.
 
-## Instalation with [Composer](https://packagist.org/packages/setasign/fpdf)
+## Installation with [Composer](https://packagist.org/packages/setasign/fpdf)
 
 If you're using Composer to manage dependencies, you can use
 
