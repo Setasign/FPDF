@@ -67,6 +67,8 @@ var $keywords;           // keywords
 var $creator;            // creator
 var $AliasNbPages;       // alias for total number of pages
 var $PDFVersion;         // PDF version number
+var $javascript;		 // Javascript Code
+var $n_js;				 // Javascript Node
 
 /*******************************************************************************
 *                                                                              *
@@ -1037,6 +1039,10 @@ function Output($name='', $dest='')
 	return '';
 }
 
+function IncludeJS($script) {
+    $this->javascript=$script;
+}
+
 /*******************************************************************************
 *                                                                              *
 *                              Protected methods                               *
@@ -1707,6 +1713,10 @@ function _putresources()
 	$this->_putresourcedict();
 	$this->_out('>>');
 	$this->_out('endobj');
+
+	if (!empty($this->javascript)) {
+        $this->_putjavascript();
+    }
 }
 
 function _putinfo()
@@ -1743,6 +1753,10 @@ function _putcatalog()
 		$this->_out('/PageLayout /OneColumn');
 	elseif($this->LayoutMode=='two')
 		$this->_out('/PageLayout /TwoColumnLeft');
+
+	if (!empty($this->javascript)) {
+        $this->_out('/Names <</JavaScript '.($this->n_js).' 0 R>>');
+    }
 }
 
 function _putheader()
@@ -1791,6 +1805,22 @@ function _enddoc()
 	$this->_out('%%EOF');
 	$this->state = 3;
 }
+
+function _putjavascript() {
+    $this->_newobj();
+    $this->n_js=$this->n;
+    $this->_out('<<');
+    $this->_out('/Names [(EmbeddedJS) '.($this->n+1).' 0 R]');
+    $this->_out('>>');
+    $this->_out('endobj');
+    $this->_newobj();
+    $this->_out('<<');
+    $this->_out('/S /JavaScript');
+    $this->_out('/JS '.$this->_textstring($this->javascript));
+    $this->_out('>>');
+    $this->_out('endobj');
+}
+
 // End of class
 }
 
