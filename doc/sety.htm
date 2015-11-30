@@ -7,9 +7,9 @@
 </head>
 <body>
 <h1>SetY</h1>
-<code>SetY(<b>float</b> y)</code>
+<code>SetY(<b>float</b> y [, <b>boolean</b> resetX])</code>
 <h2>Description</h2>
-Moves the current abscissa back to the left margin and sets the ordinate. If the passed value
+Sets the ordinate and optionally moves the current abscissa back to the left margin. If the value
 is negative, it is relative to the bottom of the page.
 <h2>Parameters</h2>
 <dl class="param">
@@ -17,12 +17,16 @@ is negative, it is relative to the bottom of the page.
 <dd>
 The value of the ordinate.
 </dd>
+<dt><code>resetX</code></dt>
+<dd>
+Whether to reset the abscissa. Default value: <code>true</code>.
+</dd>
 </dl>
 <h2>See also</h2>
-<a href="getx.htm">GetX()</a>,
-<a href="gety.htm">GetY()</a>,
-<a href="setx.htm">SetX()</a>,
-<a href="setxy.htm">SetXY()</a>.
+<a href="getx.htm">GetX</a>,
+<a href="gety.htm">GetY</a>,
+<a href="setx.htm">SetX</a>,
+<a href="setxy.htm">SetXY</a>
 <hr style="margin-top:1.5em">
 <div style="text-align:center"><a href="index.htm">Index</a></div>
 </body>

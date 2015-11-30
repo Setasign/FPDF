@@ -15,21 +15,10 @@ mode. It also contains a basic HTML parser.
 
 class </span>PDF <span class="kw">extends </span>FPDF
 <span class="kw">{
-var </span>$B<span class="kw">;
-var </span>$I<span class="kw">;
-var </span>$U<span class="kw">;
-var </span>$HREF<span class="kw">;
-
-function </span>PDF<span class="kw">(</span>$orientation<span class="kw">=</span><span class="str">'P'</span><span class="kw">, </span>$unit<span class="kw">=</span><span class="str">'mm'</span><span class="kw">, </span>$size<span class="kw">=</span><span class="str">'A4'</span><span class="kw">)
-{
-    </span><span class="cmt">// Call parent constructor
-    </span>$<span class="kw">this-&gt;</span>FPDF<span class="kw">(</span>$orientation<span class="kw">,</span>$unit<span class="kw">,</span>$size<span class="kw">);
-    </span><span class="cmt">// Initialization
-    </span>$<span class="kw">this-&gt;</span>B <span class="kw">= </span>0<span class="kw">;
-    </span>$<span class="kw">this-&gt;</span>I <span class="kw">= </span>0<span class="kw">;
-    </span>$<span class="kw">this-&gt;</span>U <span class="kw">= </span>0<span class="kw">;
-    </span>$<span class="kw">this-&gt;</span>HREF <span class="kw">= </span><span class="str">''</span><span class="kw">;
-}
+protected </span>$B <span class="kw">= </span>0<span class="kw">;
+protected </span>$I <span class="kw">= </span>0<span class="kw">;
+protected </span>$U <span class="kw">= </span>0<span class="kw">;
+protected </span>$HREF <span class="kw">= </span><span class="str">''</span><span class="kw">;
 
 function </span>WriteHTML<span class="kw">(</span>$html<span class="kw">)
 {
