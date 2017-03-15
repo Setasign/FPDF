@@ -874,7 +874,13 @@ function Image($file, $x=null, $y=null, $w=0, $h=0, $type='', $link='')
 			$pos = strrpos($file,'.');
 			if(!$pos)
 				$this->Error('Image file has no extension and no type was specified: '.$file);
-			$type = substr($file,$pos+1);
+			$questionPos = strrpos($file,'?');
+
+			if ($questionPos) {
+				$type = substr($file,$pos+1,$questionPos-($pos+1));
+			} else {
+				$type = substr($file,$pos+1);
+			}
 		}
 		$type = strtolower($type);
 		if($type=='jpeg')
