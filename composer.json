@@ -1,21 +1,27 @@
 {
-    "name": "setasign/fpdf",
-    "version": "1.8.1",
+    "name": "latinosoft/ifpdf",
+    "version": "1.0.0",
     "homepage": "http://www.fpdf.org",
-    "description": "FPDF is a PHP class which allows to generate PDF files with pure PHP. F from FPDF stands for Free: you may use it for any kind of usage and modify it to suit your needs.",
+    "description": "(Improved)FPDF is a PHP class which allows to generate PDF files with pure PHP. F from FPDF stands for Free: you may use it for any kind of usage and modify it to suit your needs.",
     "type": "library",
-    "keywords": ["pdf", "fpdf"],
+    "keywords": ["pdf", "fpdf", "ifpdf"],
     "license": "no usage restriction",
     "authors": [
         {
             "name": "Olivier Plathey",
             "email": "oliver@fpdf.org",
             "homepage": "http://fpdf.org/"
+        },
+        {
+            "name": "Juan Noriega",
+            "email": "jsnoriegam@latinosoft.co",
+            "homepage": "http://latinosoft.co/"
         }
     ],
     "autoload": {
         "classmap": [
-            "fpdf.php"
+            "IFpdf.php",
+            "Barcode.php"
         ]
     }
 }
