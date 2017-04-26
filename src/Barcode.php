@@ -1,11 +1,14 @@
 <?php
+
+namespace IFPDF;
+
 class Barcode {
 	
 	/**
 	 * @var array representation of barcode.
 	 * @access protected
 	 */
-	protected $barcode_array;
+	protected $barcodeArray;
 		
 	/**
 	 * This is the class constructor. 
@@ -30,7 +33,7 @@ class Barcode {
  	 * @return array
 	 */
 	public function getBarcodeArray() {
-		return $this->barcode_array;
+		return $this->barcodeArray;
 	}
 	
 	/** 
@@ -42,128 +45,128 @@ class Barcode {
 	public function setBarcode($code, $type='C39E') {
 		switch (strtoupper($type)) {
 			case 'C39': { // CODE 39 - ANSI MH10.8M-1983 - USD-3 - 3 of 9.
-				$arrcode = $this->barcode_code39($code, false, false);
+				$arrcode = $this->barcodeCode39($code, false, false);
 				break;
 			}
 			case 'C39+': { // CODE 39 with checksum
-				$arrcode = $this->barcode_code39($code, false, true);
+				$arrcode = $this->barcodeCode39($code, false, true);
 				break;
 			}
 			case 'C39E': { // CODE 39 EXTENDED
-				$arrcode = $this->barcode_code39($code, true, false);
+				$arrcode = $this->barcodeCode39($code, true, false);
 				break;
 			}
 			case 'C39E+': { // CODE 39 EXTENDED + CHECKSUM
-				$arrcode = $this->barcode_code39($code, true, true);
+				$arrcode = $this->barcodeCode39($code, true, true);
 				break;
 			}
 			case 'C93': { // CODE 93 - USS-93
-				$arrcode = $this->barcode_code93($code);
+				$arrcode = $this->barcodeCode93($code);
 				break;
 			}
 			case 'S25': { // Standard 2 of 5
-				$arrcode = $this->barcode_s25($code, false);
+				$arrcode = $this->barcodeS25($code, false);
 				break;
 			}
 			case 'S25+': { // Standard 2 of 5 + CHECKSUM
-				$arrcode = $this->barcode_s25($code, true);
+				$arrcode = $this->barcodeS25($code, true);
 				break;
 			}
 			case 'I25': { // Interleaved 2 of 5
-				$arrcode = $this->barcode_i25($code, false);
+				$arrcode = $this->barcodeI25($code, false);
 				break;
 			}
 			case 'I25+': { // Interleaved 2 of 5 + CHECKSUM
-				$arrcode = $this->barcode_i25($code, true);
+				$arrcode = $this->barcodeI25($code, true);
 				break;
 			}
 			case 'C128A': { // CODE 128 A
-				$arrcode = $this->barcode_c128($code, 'A');
+				$arrcode = $this->barcodeC128($code, 'A');
 				break;
 			}
 			case 'C128B': { // CODE 128 B
-				$arrcode = $this->barcode_c128($code, 'B');
+				$arrcode = $this->barcodeC128($code, 'B');
 				break;
 			}
 			case 'C128C': { // CODE 128 C
-				$arrcode = $this->barcode_c128($code, 'C');
+				$arrcode = $this->barcodeC128($code, 'C');
 				break;
 			}
 			case 'EAN2': { // 2-Digits UPC-Based Extention
-				$arrcode = $this->barcode_eanext($code, 2);
+				$arrcode = $this->barcodeEANExt($code, 2);
 				break;
 			}
 			case 'EAN5': { // 5-Digits UPC-Based Extention
-				$arrcode = $this->barcode_eanext($code, 5);
+				$arrcode = $this->barcodeEANExt($code, 5);
 				break;
 			}
 			case 'EAN8': { // EAN 8
-				$arrcode = $this->barcode_eanupc($code, 8);
+				$arrcode = $this->barcodeEANUPC($code, 8);
 				break;
 			}
 			case 'EAN13': { // EAN 13
-				$arrcode = $this->barcode_eanupc($code, 13);
+				$arrcode = $this->barcodeEANUPC($code, 13);
 				break;
 			}
 			case 'UPCA': { // UPC-A
-				$arrcode = $this->barcode_eanupc($code, 12);
+				$arrcode = $this->barcodeEANUPC($code, 12);
 				break;
 			}
 			case 'UPCE': { // UPC-E
-				$arrcode = $this->barcode_eanupc($code, 6);
+				$arrcode = $this->barcodeEANUPC($code, 6);
 				break;
 			}
 			case 'MSI': { // MSI (Variation of Plessey code)
-				$arrcode = $this->barcode_msi($code, false);
+				$arrcode = $this->barcodeMSI($code, false);
 				break;
 			}
 			case 'MSI+': { // MSI + CHECKSUM (modulo 11)
-				$arrcode = $this->barcode_msi($code, true);
+				$arrcode = $this->barcodeMSI($code, true);
 				break;
 			}
 			case 'POSTNET': { // POSTNET
-				$arrcode = $this->barcode_postnet($code, false);
+				$arrcode = $this->barcodePostnet($code, false);
 				break;
 			}
 			case 'PLANET': { // PLANET
-				$arrcode = $this->barcode_postnet($code, true);
+				$arrcode = $this->barcodePostnet($code, true);
 				break;
 			}
 			case 'RMS4CC': { // RMS4CC (Royal Mail 4-state Customer Code) - CBC (Customer Bar Code)
-				$arrcode = $this->barcode_rms4cc($code, false);
+				$arrcode = $this->barcodeRMS4CC($code, false);
 				break;
 			}
 			case 'KIX': { // KIX (Klant index - Customer index)
-				$arrcode = $this->barcode_rms4cc($code, true);
+				$arrcode = $this->barcodeRMS4CC($code, true);
 				break;
 			}
 			case 'IMB': { // IMB - Intelligent Mail Barcode - Onecode - USPS-B-3200
-				$arrcode = $this->barcode_imb($code);
+				$arrcode = $this->barcodeIMB($code);
 				break;
 			}
 			case 'CODABAR': { // CODABAR
-				$arrcode = $this->barcode_codabar($code);
+				$arrcode = $this->barcodeCodabar($code);
 				break;
 			}
 			case 'CODE11': { // CODE 11
-				$arrcode = $this->barcode_code11($code);
+				$arrcode = $this->barcodeCode11($code);
 				break;
 			}
 			case 'PHARMA': { // PHARMACODE
-				$arrcode = $this->barcode_pharmacode($code);
+				$arrcode = $this->barcodePharmaCode($code);
 				break;
 			}
 			case 'PHARMA2T': { // PHARMACODE TWO-TRACKS
-				$arrcode = $this->barcode_pharmacode2t($code);
+				$arrcode = $this->barcodePharmaCode2t($code);
 				break;
 			}
 			default: {
-				$this->barcode_array = false;
+				$this->barcodeArray = false;
 				$arrcode = false;
 				break;
 			}
 		}
-		$this->barcode_array = $arrcode;
+		$this->barcodeArray = $arrcode;
 	}
 	
 	/**
@@ -174,7 +177,7 @@ class Barcode {
 	 * @return array barcode representation.
 	 * @access protected
 	 */
-	protected function barcode_code39($code, $extended=false, $checksum=false) {
+	protected function barcodeCode39($code, $extended=false, $checksum=false) {
 		$chr['0'] = '111221211';
 		$chr['1'] = '211211112';
 		$chr['2'] = '112211112';
@@ -223,14 +226,14 @@ class Barcode {
 		$code = strtoupper($code);
 		if ($extended) {
 			// extended mode
-			$code = $this->encode_code39_ext($code);
+			$code = $this->encodeCode39Ext($code);
 		}
 		if ($code === false) {
 			return false;
 		}
 		if ($checksum) {
 			// checksum
-			$code .= $this->checksum_code39($code);
+			$code .= $this->checksumCode39($code);
 		}
 		// add start and stop codes
 		$code = '*'.$code.'*';
@@ -268,7 +271,7 @@ class Barcode {
 	 * @return encoded string.
 	 * @access protected
 	 */
-	protected function encode_code39_ext($code) {
+	protected function encodeCode39Ext($code) {
 		$encode = array(
 			chr(0) => '%U', chr(1) => '$A', chr(2) => '$B', chr(3) => '$C',
 			chr(4) => '$D', chr(5) => '$E', chr(6) => '$F', chr(7) => '$G',
@@ -319,7 +322,7 @@ class Barcode {
 	 * @return char checksum.
 	 * @access protected
 	 */
-	protected function checksum_code39($code) {
+	protected function checksumCode39($code) {
 		$chars = array(
 			'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
 			'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
@@ -343,7 +346,7 @@ class Barcode {
 	 * @return array barcode representation.
 	 * @access protected
 	 */
-	protected function barcode_code93($code) {
+	protected function barcodeCode93($code) {
 		$chr['0'] = '131112';
 		$chr['1'] = '111213';
 		$chr['2'] = '111312';
@@ -435,7 +438,7 @@ class Barcode {
 			$code_ext .= $encode[$code{$i}];
 		}
 		// checksum
-		$code .= $this->checksum_code93($code);
+		$code .= $this->checksumCode93($code);
 		// add start and stop codes
 		$code = '*'.$code.'*';
 		$bararray = array('code' => $code, 'maxw' => 0, 'maxh' => 1, 'bcode' => array());
@@ -471,7 +474,7 @@ class Barcode {
 	 * @return string checksum code.
 	 * @access protected
 	 */
-	protected function checksum_code93($code) {
+	protected function checksumCode93($code) {
 		$chars = array(
 			'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
 			'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
@@ -516,7 +519,7 @@ class Barcode {
 	 * @return int checksum.
 	 * @access protected
 	 */
-	protected function checksum_s25($code) {
+	protected function checksumS25($code) {
 		$len = strlen($code);
 		$sum = 0;
 		for ($i = 0; $i < $len; $i+=2) {
@@ -542,7 +545,7 @@ class Barcode {
 	 * @return array barcode representation.
 	 * @access protected
 	 */
-	protected function barcode_msi($code, $checksum=false) {
+	protected function barcodeMSI($code, $checksum=false) {
 		$chr['0'] = '100100100100';
 		$chr['1'] = '100100100110';
 		$chr['2'] = '100100110100';
@@ -601,7 +604,7 @@ class Barcode {
 	 * @return array barcode representation.
 	 * @access protected
 	 */
-	protected function barcode_s25($code, $checksum=false) {
+	protected function barcodeS25($code, $checksum=false) {
 		$chr['0'] = '10101110111010';
 		$chr['1'] = '11101010101110';
 		$chr['2'] = '10111010101110';
@@ -614,7 +617,7 @@ class Barcode {
 		$chr['9'] = '10111010111010';
 		if ($checksum) {
 			// add checksum
-			$code .= $this->checksum_s25($code);
+			$code .= $this->checksumS25($code);
 		}
 		if((strlen($code) % 2) != 0) {
 			// add leading zero if code-length is odd
@@ -672,7 +675,7 @@ class Barcode {
 	 * @return array barcode representation.
 	 * @access protected
 	 */
-	protected function barcode_i25($code, $checksum=false) {
+	protected function barcodeI25($code, $checksum=false) {
 		$chr['0'] = '11221';
 		$chr['1'] = '21112';
 		$chr['2'] = '12112';
@@ -687,7 +690,7 @@ class Barcode {
 		$chr['Z'] = '21';
 		if ($checksum) {
 			// add checksum
-			$code .= $this->checksum_s25($code);
+			$code .= $this->checksumS25($code);
 		}
 		if((strlen($code) % 2) != 0) {
 			// add leading zero if code-length is odd
@@ -736,7 +739,7 @@ class Barcode {
 	 * @return array barcode representation.
 	 * @access protected
 	 */
-	protected function barcode_c128($code, $type='B') {
+	protected function barcodeC128($code, $type='B') {
 		$chr = array(
 			'212222', /* 00 */
 			'222122', /* 01 */
@@ -932,7 +935,7 @@ class Barcode {
 	 * @return array barcode representation.
 	 * @access protected
 	 */
-	protected function barcode_eanupc($code, $len=13) {
+	protected function barcodeEANUPC($code, $len=13) {
 		$upce = false;
 		if ($len == 6) {
 			$len = 12; // UPC-A
@@ -1125,7 +1128,7 @@ class Barcode {
 	 * @return array barcode representation.
 	 * @access protected
 	 */
-	protected function barcode_eanext($code, $len=5) {
+	protected function barcodeEANExt($code, $len=5) {
 		//Padding
 		$code = str_pad($code, $len, '0', STR_PAD_LEFT);
 		// calculate check digit
@@ -1200,7 +1203,7 @@ class Barcode {
 	 * @return array barcode representation.
 	 * @access protected
 	 */
-	protected function barcode_postnet($code, $planet=false) {
+	protected function barcodePostnet($code, $planet=false) {
 		// bar lenght
 		if ($planet) {
 			$barlen = Array(
@@ -1273,7 +1276,7 @@ class Barcode {
 	 * @return array barcode representation.
 	 * @access protected
 	 */
-	protected function barcode_rms4cc($code, $kix=false) {
+	protected function barcodeRMS4CC($code, $kix=false) {
 		$notkix = !$kix;
 		// bar mode
 		// 1 = pos 1, length 2
@@ -1424,7 +1427,7 @@ class Barcode {
 	 * @return array barcode representation.
 	 * @access protected
 	 */
-	protected function barcode_codabar($code) {
+	protected function barcodeCodabar($code) {
 		$chr = array(
 			'0' => '11111221',
 			'1' => '11112211',
@@ -1480,7 +1483,7 @@ class Barcode {
 	 * @return array barcode representation.
 	 * @access protected
 	 */
-	protected function barcode_code11($code) {
+	protected function barcodeCode11($code) {
 		$chr = array(
 			'0' => '111121',
 			'1' => '211121',
@@ -1572,7 +1575,7 @@ class Barcode {
 	 * @return array barcode representation.
 	 * @access protected
 	 */
-	protected function barcode_pharmacode($code) {
+	protected function barcodePharmaCode($code) {
 		$seq = '';
 		$code = intval($code);
 		while ($code > 0) {
@@ -1598,7 +1601,7 @@ class Barcode {
 	 * @return array barcode representation.
 	 * @access protected
 	 */
-	protected function barcode_pharmacode2t($code) {
+	protected function barcodePharmaCode2t($code) {
 		$seq = '';
 		$code = intval($code);
 		do {
@@ -1661,7 +1664,7 @@ class Barcode {
 	 * @return array barcode representation.
 	 * @access protected
 	 */
-	protected function barcode_imb($code) {
+	protected function barcodeIMB($code) {
 		$asc_chr = array(4,0,2,6,3,5,1,9,8,7,1,2,0,6,4,8,2,9,5,3,0,1,3,7,4,6,8,9,2,0,5,1,9,4,3,8,6,7,1,2,4,3,9,5,7,8,3,0,2,1,4,0,9,1,7,0,2,4,6,3,7,1,9,5,8);
 		$dsc_chr = array(7,1,9,5,8,0,2,4,6,3,5,8,9,7,3,0,6,1,7,4,6,8,9,2,5,1,7,5,4,3,8,7,6,0,2,5,4,9,3,0,1,6,8,2,0,4,5,9,6,7,5,2,6,3,8,5,1,9,8,7,4,0,2,6,3);
 		$asc_pos = array(3,0,8,11,1,12,8,11,10,6,4,12,2,7,9,6,7,9,2,8,4,0,12,7,10,9,0,7,10,5,7,9,6,8,2,12,1,4,2,0,1,5,4,6,12,1,0,9,4,7,5,10,2,6,9,11,2,12,6,7,5,11,0,3,2);

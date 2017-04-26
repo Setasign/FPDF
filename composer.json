@@ -5,7 +5,7 @@
     "description": "(Improved)FPDF is a PHP class which allows to generate PDF files with pure PHP. F from FPDF stands for Free: you may use it for any kind of usage and modify it to suit your needs.",
     "type": "library",
     "keywords": ["pdf", "fpdf", "ifpdf"],
-    "license": "no usage restriction",
+    "license": "MIT",
     "authors": [
         {
             "name": "Olivier Plathey",
@@ -19,9 +19,8 @@
         }
     ],
     "autoload": {
-        "classmap": [
-            "IFpdf.php",
-            "Barcode.php"
-        ]
+        "psr-4": {
+            "IFPDF": "src/"
+        }
     }
 }

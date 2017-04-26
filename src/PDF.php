@@ -8,9 +8,11 @@
 * Author:  Juan NORIEGA                                                        *
 *******************************************************************************/
 
-define('IFPDF_VERSION','1.0.0');
+namespace IFPDF;
 
-class IFPdf
+const IFPDF_VERSION = '1.0.0';
+
+class PDF
 {
     protected $page;               // current page number
     protected $n;                  // current object number
@@ -110,8 +112,8 @@ class IFPdf
             if(substr($this->fontpath,-1)!='/' && substr($this->fontpath,-1)!='\\')
             $this->fontpath .= '/';
         }
-        elseif(is_dir(dirname(__FILE__).'/font'))
-            $this->fontpath = dirname(__FILE__).'/font/';
+        elseif(is_dir(__DIR__.'/font'))
+            $this->fontpath = __DIR__.'/font/';
         else
             $this->fontpath = '';
         // Core fonts
@@ -270,7 +272,7 @@ class IFPdf
     public function error($msg)
     {
         // Fatal error
-        throw new Exception('FPDF error: '.$msg);
+        throw new RuntimeException('FPDF error: '.$msg);
     }
     
     public function close()
@@ -928,7 +930,7 @@ class IFPdf
         $this->link($x,$y,$w,$h,$link);
     }
 
-    public function write1dBarcode($x=null, $y=null, $w=null, $h=null, $res=0.7, $code, $type) {
+    public function write1DBarcode($x=null, $y=null, $w=null, $h=null, $res=0.7, $code, $type) {
         $x = $x === null ? $this->x : $x;
         $y = $y === null ? $this->y : $y;
 
@@ -1245,15 +1247,15 @@ class IFPdf
             if($c1>=224)
             {
                 // 3-byte character
-                $c2 = ord($s[$i++]);
-                $c3 = ord($s[$i++]);
+                $c2 = ord(isset($s[$i])?$s[$i++]:null);
+                $c3 = ord(isset($s[$i])?$s[$i++]:null);
                 $res .= chr((($c1 & 0x0F)<<4) + (($c2 & 0x3C)>>2));
                 $res .= chr((($c2 & 0x03)<<6) + ($c3 & 0x3F));
             }
             elseif($c1>=192)
             {
                 // 2-byte character
-                $c2 = ord($s[$i++]);
+                $c2 = ord(isset($s[$i])?$s[$i++]:null);
                 $res .= chr(($c1 & 0x1C)>>2);
                 $res .= chr((($c1 & 0x03)<<6) + ($c2 & 0x3F));
             }
