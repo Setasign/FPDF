@@ -107,8 +107,8 @@ class PDF {
             if (substr($this->fontpath, -1) != '/' && substr($this->fontpath, -1) != '\\') {
                 $this->fontpath .= '/';
             }
-        } elseif (is_dir(__DIR__ . '/font')) {
-            $this->fontpath = __DIR__ . '/font/';
+        } elseif (is_dir(realpath(__DIR__ . '/font'))) {
+            $this->fontpath = realpath(__DIR__ . '/font') . DIRECTORY_SEPARATOR;
         } else {
             $this->fontpath = '';
         }
@@ -280,7 +280,7 @@ class PDF {
 
     public function error($msg) {
         // Fatal error
-        throw new RuntimeException('FPDF error: ' . $msg);
+        throw new \RuntimeException('FPDF error: ' . $msg);
     }
 
     public function close() {
@@ -389,7 +389,7 @@ class PDF {
         return $this->page;
     }
 
-    public function setdrawColor($r, $g = null, $b = null) {
+    public function setDrawColor($r, $g = null, $b = null) {
         // Set color for all stroking operations
         if (($r == 0 && $g == 0 && $b == 0) || $g === null) {
             $this->drawColor = sprintf('%.3F G', $r / 255);
@@ -401,7 +401,7 @@ class PDF {
         }
     }
 
-    public function setfillColor($r, $g = null, $b = null) {
+    public function setFillColor($r, $g = null, $b = null) {
         // Set color for all filling operations
         if (($r == 0 && $g == 0 && $b == 0) || $g === null) {
             $this->fillColor = sprintf('%.3F g', $r / 255);
@@ -414,7 +414,7 @@ class PDF {
         }
     }
 
-    public function settextColor($r, $g = null, $b = null) {
+    public function setTextColor($r, $g = null, $b = null) {
         // Set color for text
         if (($r == 0 && $g == 0 && $b == 0) || $g === null) {
             $this->textColor = sprintf('%.3F g', $r / 255);
@@ -1870,7 +1870,7 @@ class PDF {
     }
 
     protected function _putInfo() {
-        $this->metadata['Producer'] = 'FPDF ' . FPDF_VERSION;
+        $this->metadata['Producer'] = 'FPDF ' . IFPDF_VERSION;
         $this->metadata['CreationDate'] = 'D:' . date('YmdHis');
         foreach ($this->metadata as $key => $value) {
             $this->_put('/' . $key . ' ' . $this->_textString($value));
