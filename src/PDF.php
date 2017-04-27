@@ -293,7 +293,9 @@ class PDF {
         }
         // Page footer
         $this->inFooter = true;
-        $this->footer($this);
+        if($this->footer and is_callable($this->footer)) {
+            call_user_func($this->footer, $this);
+        }
         $this->inFooter = false;
         // Close page
         $this->_endPage();
@@ -317,7 +319,9 @@ class PDF {
         if ($this->page > 0) {
             // Page footer
             $this->inFooter = true;
-            $this->footer($this);
+            if($this->footer and is_callable($this->footer)) {
+                call_user_func($this->footer, $this);
+            }
             $this->inFooter = false;
             // Close page
             $this->_endPage();
@@ -346,7 +350,9 @@ class PDF {
         $this->colorFlag = $cf;
         // Page header
         $this->inHeader = true;
-        $this->header($this);
+        if($this->header && is_callable($this->header)) {
+            call_user_func($this->header, $this);
+        }
         $this->inHeader = false;
         // Restore line width
         if ($this->lineWidth != $lw) {
@@ -872,7 +878,7 @@ class PDF {
         }
     }
 
-    public function image($file, $x = null, $y = null, $w = 0, $h = 0, $type = '', $link = '') {
+    public function image($file, $w = 0, $h = 0, $x = null, $y = null, $type = '', $link = '') {
         // Put an image on the page
         if ($file == '') {
             $this->error('Image file name is empty');
@@ -941,7 +947,7 @@ class PDF {
         }
     }
 
-    public function write1DBarcode($code, $type, $x = null, $y = null, $w = null, $h = null, $res = 0.7) {
+    public function write1DBarcode($code, $type, $w = null, $h = null, $x = null, $y = null, $res = 0.7) {
         $x = $x === null ? $this->x : $x;
         $y = $y === null ? $this->y : $y;
 
