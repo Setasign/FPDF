@@ -951,8 +951,8 @@ class PDF {
         $x = $x === null ? $this->x : $x;
         $y = $y === null ? $this->y : $y;
 
-        $xres = $res / $pdf->k;
-        $padding = $res / $pdf->k;
+        $xres = $res / $this->k;
+        $padding = $res / $this->k;
 
         $barcode = new Barcode($code, $type);
         $arrcode = $barcode->getBarcodeArray();
