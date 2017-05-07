@@ -60,7 +60,7 @@ class PDF {
     protected $images;             // array of used images
     protected $pageLinks;          // array of links in pages
     protected $links;              // array of internal links
-    protected $AutoPageBreak;      // automatic page breaking
+    protected $autoPageBreak;      // automatic page breaking
     protected $pageBreakTrigger;   // threshold used to trigger page breaks
     protected $inHeader;           // flag set when processing header
     protected $inFooter;           // flag set when processing footer
@@ -151,13 +151,13 @@ class PDF {
         $this->curRotation = 0;
         // Page margins (1 cm)
         $margin = 28.35 / $this->k;
-        $this->setMargins($margin, $margin);
+        $this->setMargins($margin, $margin, $margin, 2 * $margin);
         // Interior cell margin (1 mm)
         $this->cellMargin = $margin / 10;
         // Line width (0.2 mm)
         $this->lineWidth = .567 / $this->k;
         // Automatic page break
-        $this->setAutoPageBreak(true, 2 * $margin);
+        $this->setautoPageBreak(true);
         // Default display mode
         $this->setDisplayMode('default');
         // Enable compression
@@ -169,13 +169,11 @@ class PDF {
     /**
      * Set left, top and right margins
      */
-    public function setMargins($left, $top, $right = null) {
+    public function setMargins($left, $top, $right = null, $bottom = 0) {
         $this->leftMargin = $left;
         $this->topMargin = $top;
-        if ($right === null) {
-            $right = $left;
-        }
-        $this->rightMargin = $right;
+        $this->rightMargin = $right ?? $left;
+        $this->setBottomMargin($bottom);
     }
 
     /**
@@ -201,14 +199,21 @@ class PDF {
     public function setRightMargin($margin) {
         $this->rightMargin = $margin;
     }
+    
+    /**
+     * Set bottom margin
+     */
+    public function setBottomMargin($margin) {
+        $this->bottomMargin = $margin;
+        $this->pageBreakTrigger = $this->h - $this->bottomMargin;
+    }
 
     /**
      * Set auto page break mode and triggering margin
      */
-    public function setAutoPageBreak($auto, $margin = 0) {
-        $this->AutoPageBreak = $auto;
-        $this->bottomMargin = $margin;
-        $this->pageBreakTrigger = $this->h - $margin;
+    public function setautoPageBreak($auto) {
+        $this->autoPageBreak = $auto;
+        //$this->bottomMargin = $margin;
     }
 
     /**
@@ -444,13 +449,28 @@ class PDF {
         }
     }
 
+    /**
+     * Draw a line
+     * 
+     * @param type $x1
+     * @param type $y1
+     * @param type $x2
+     * @param type $y2
+     */
     public function line($x1, $y1, $x2, $y2) {
-        // Draw a line
         $this->_out(sprintf('%.2F %.2F m %.2F %.2F l S', $x1 * $this->k, ($this->h - $y1) * $this->k, $x2 * $this->k, ($this->h - $y2) * $this->k));
     }
 
+    /**
+     * Draw a rectangle
+     * 
+     * @param float $x
+     * @param float $y
+     * @param float $w
+     * @param float $h
+     * @param string $style
+     */
     public function rect($x, $y, $w, $h, $style = '') {
-        // Draw a rectangle
         if ($style == 'F') {
             $op = 'f';
         } elseif ($style == 'FD' || $style == 'DF') {
@@ -542,8 +562,12 @@ class PDF {
         }
     }
 
+    /**
+     * Set font size in points
+     * 
+     * @param float $size
+     */
     public function setfontSize($size) {
-        // Set font size in points
         if ($this->fontSizePt == $size) {
             return;
         }
@@ -561,24 +585,45 @@ class PDF {
         return $n;
     }
 
-    public function setLink($link, $y = 0, $page = -1) {
-        // Set destination of internal link
-        if ($y == -1) {
-            $y = $this->y;
-        }
-        if ($page == -1) {
-            $page = $this->page;
-        }
+    /**
+     * Set destination of internal link
+     * 
+     * @param string $link
+     * @param float $y
+     * @param int $page
+     */
+    public function setLink($link, $y = null, $page = null) {
+        $y = $y ?? $this->y;
+        $page = $page ?? $this->page;
+        
         $this->links[$link] = [$page, $y];
     }
 
-    public function link($x, $y, $w, $h, $link) {
-        // Put a link on the page
+    /**
+     * Put a link on the page
+     * 
+     * @param string $link
+     * @param float $w
+     * @param float $h
+     * @param float $x
+     * @param float $y
+     */
+    public function link($link, $w, $h, $x = null, $y = null) {
+        $x = $x ?? $this->x;
+        $y = $y ?? $this->y;
         $this->pageLinks[$this->page][] = [$x * $this->k, $this->hPt - $y * $this->k, $w * $this->k, $h * $this->k, $link];
     }
 
-    public function text($x, $y, $txt) {
-        // Output a string
+    /**
+     * Output a string
+     * 
+     * @param string $txt
+     * @param float $x
+     * @param float $y
+     */
+    public function text($txt, $x = null, $y = null) {
+        $x = $x ?? $this->x;
+        $y = $y ?? $this->y;
         if (!isset($this->currentFont)) {
             $this->error('No font has been set');
         }
@@ -592,15 +637,15 @@ class PDF {
         $this->_out($s);
     }
 
-    public function isAutoPageBreak() {
+    public function isautoPageBreak() {
         // Accept automatic page break or not
-        return $this->AutoPageBreak;
+        return $this->autoPageBreak;
     }
 
-    public function cell($w, $h = 0, $txt = '', $border = 0, $ln = 0, $align = '', $fill = false, $link = '') {
+    public function cell($txt, $w, $h = 0, $border = 0, $ln = 0, $align = '', $fill = false, $link = '') {
         // Output a cell
         $k = $this->k;
-        if ($this->y + $h > $this->pageBreakTrigger && !$this->inHeader && !$this->inFooter && $this->AutoPageBreak) {
+        if ($this->y + $h > $this->pageBreakTrigger && !$this->inHeader && !$this->inFooter && $this->autoPageBreak) {
             // Automatic page break
             $x = $this->x;
             $ws = $this->ws;
@@ -665,7 +710,8 @@ class PDF {
                 $s .= ' Q';
             }
             if ($link) {
-                $this->link($this->x + $dx, $this->y + .5 * $h - .5 * $this->fontSize, $this->getStringWidth($txt), $this->fontSize, $link);
+                //$this->link($this->x + $dx, $this->y + .5 * $h - .5 * $this->fontSize, $this->getStringWidth($txt), $this->fontSize, $link);
+                $this->link($link, $this->getStringWidth($txt), $this->fontSize, $this->x + $dx, $this->y + .5 * $h - .5 * $this->fontSize);
             }
         }
         if ($s) {
@@ -683,7 +729,7 @@ class PDF {
         }
     }
 
-    public function multiCell($w, $h, $txt, $border = 0, $align = 'J', $fill = false) {
+    public function multiCell($txt, $w, $h, $border = 0, $align = 'J', $fill = false) {
         // Output text with automatic or explicit line breaks
         if (!isset($this->currentFont)) {
             $this->error('No font has been set');
@@ -791,7 +837,7 @@ class PDF {
         $this->x = $this->leftMargin;
     }
 
-    public function write($h, $txt, $link = '') {
+    public function write($txt, $h, $link = '') {
         // Output text in flowing mode
         if (!isset($this->currentFont)) {
             $this->error('No font has been set');
@@ -928,7 +974,7 @@ class PDF {
 
         // Flowing mode
         if ($y === null) {
-            if ($this->y + $h > $this->pageBreakTrigger && !$this->inHeader && !$this->inFooter && $this->AcceptPageBreak()) {
+            if ($this->y + $h > $this->pageBreakTrigger && !$this->inHeader && !$this->inFooter && $this->acceptPageBreak()) {
                 // Automatic page break
                 $x2 = $this->x;
                 $this->addPage($this->curOrientation, $this->curPageSize, $this->curRotation);
@@ -943,16 +989,12 @@ class PDF {
         }
         $this->_out(sprintf('q %.2F 0 0 %.2F %.2F %.2F cm /I%d Do Q', $w * $this->k, $h * $this->k, $x * $this->k, ($this->h - ($y + $h)) * $this->k, $info['i']));
         if ($link) {
-            $this->link($x, $y, $w, $h, $link);
+            $this->link($link, $w, $h, $x, $y);
         }
     }
 
     public function write1DBarcode($code, $type, $w = null, $h = null, $x = null, $y = null, $res = 0.7) {
-        $x = $x === null ? $this->x : $x;
-        $y = $y === null ? $this->y : $y;
-
         $xres = $res / $this->k;
-        $padding = $res / $this->k;
 
         $barcode = new Barcode($code, $type);
         $arrcode = $barcode->getBarcodeArray();
@@ -967,24 +1009,30 @@ class PDF {
         if ($h === null) {
             $h = $w / 3;
         }
+        
+        $x = $x === null ? $this->x : $x;
+        if($y === null) {
+            $y = $this->y;
+            $this->y += $h;
+        }
 
         $xpos = $x;
-        $ypos = $y - $h;
+        $ypos = $y;
         foreach ($arrcode['bcode'] as $k => $v) {
             $bw = ($v['w'] * $xres);
             if ($v['t']) {
                 $he = $v['h'] * $h / $arrcode['maxh'];
-                $this->rect($xpos, $ypos + $he, $bw, $he, 'F');
+                $this->rect($xpos, $ypos, $bw, $he, 'F');
             }
-            $bp = ($v['w'] * $padding);
+            $bp = ($v['w'] * $xres);
             $xpos += $bp;
         }
     }
 
     public function rotateContent($angle, $x = null, $y = null) {
-        $x = $x === null ? $this->x : $x;
-        $y = $y === null ? $this->y : $y;
-
+        $x = $x ?? $this->x;
+        $y = $y ?? $this->y;
+        
         if ($this->contentAngle != 0) {
             $this->_out('Q');
         }

@@ -1,6 +1,6 @@
 {
     "name": "latinosoft/ifpdf",
-    "version": "1.0.0-alpha4",
+    "version": "1.0.0-alpha5",
     "homepage": "http://www.fpdf.org",
     "description": "(Improved)FPDF is a PHP class which allows to generate PDF files with pure PHP. F from FPDF stands for Free: you may use it for any kind of usage and modify it to suit your needs.",
     "type": "library",
@@ -22,5 +22,8 @@
         "psr-4": {
             "IFPDF\\": "src/"
         }
+    },
+    "require": {
+        "php": ">=7.0.0"
     }
 }
