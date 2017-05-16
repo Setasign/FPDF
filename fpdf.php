@@ -444,8 +444,10 @@ function Rect($x, $y, $w, $h, $style='')
 	$this->_out(sprintf('%.2F %.2F %.2F %.2F re %s',$x*$this->k,($this->h-$y)*$this->k,$w*$this->k,-$h*$this->k,$op));
 }
 
-function AddFont($family, $style='', $file='')
+function AddFont($family, $style='', $file='', $fontpath=false)
 {
+	if($fontpath)
+		$this->_setfontpath($fontpath);
 	// Add a TrueType, OpenType or Type1 font
 	$family = strtolower($family);
 	if($file=='')
@@ -1138,8 +1140,6 @@ protected function _endpage()
 protected function _loadfont($font)
 {
 	// Load a font definition file from the font directory
-	if(strpos($font,'/')!==false || strpos($font,"\\")!==false)
-		$this->Error('Incorrect font definition file name: '.$font);
 	include($this->fontpath.$font);
 	if(!isset($name))
 		$this->Error('Could not include font definition file');
@@ -1893,6 +1893,11 @@ protected function _enddoc()
 	$this->_put($offset);
 	$this->_put('%%EOF');
 	$this->state = 3;
+}
+
+protected function _setfontpath($fontpath)
+{
+	$this->fontpath = $fontpath;
 }
 }
 ?>
