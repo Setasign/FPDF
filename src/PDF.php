@@ -776,7 +776,7 @@ class PDF {
                     $this->ws = 0;
                     $this->_out('0 Tw');
                 }
-                $this->cell($w, $h, substr($s, $j, $i - $j), $b, 2, $align, $fill);
+                $this->cell(substr($s, $j, $i - $j), $w, $h, $b, 2, $align, $fill);
                 $i++;
                 $sep = -1;
                 $j = $i;
@@ -804,13 +804,13 @@ class PDF {
                         $this->ws = 0;
                         $this->_out('0 Tw');
                     }
-                    $this->cell($w, $h, substr($s, $j, $i - $j), $b, 2, $align, $fill);
+                    $this->cell(substr($s, $j, $i - $j), $w, $h, $b, 2, $align, $fill);
                 } else {
                     if ($align == 'J') {
                         $this->ws = ($ns > 1) ? ($wmax - $ls) / 1000 * $this->fontSize / ($ns - 1) : 0;
                         $this->_out(sprintf('%.3F Tw', $this->ws * $this->k));
                     }
-                    $this->cell($w, $h, substr($s, $j, $sep - $j), $b, 2, $align, $fill);
+                    $this->cell(substr($s, $j, $sep - $j), $w, $h, $b, 2, $align, $fill);
                     $i = $sep + 1;
                 }
                 $sep = -1;
@@ -833,7 +833,7 @@ class PDF {
         if ($border && strpos($border, 'B') !== false) {
             $b .= 'B';
         }
-        $this->cell($w, $h, substr($s, $j, $i - $j), $b, 2, $align, $fill);
+        $this->cell(substr($s, $j, $i - $j), $w, $h, $b, 2, $align, $fill);
         $this->x = $this->leftMargin;
     }
 
@@ -857,7 +857,7 @@ class PDF {
             $c = $s[$i];
             if ($c == "\n") {
                 // Explicit line break
-                $this->cell($w, $h, substr($s, $j, $i - $j), 0, 2, '', false, $link);
+                $this->cell(substr($s, $j, $i - $j), $w, $h, 0, 2, '', false, $link);
                 $i++;
                 $sep = -1;
                 $j = $i;
@@ -890,9 +890,9 @@ class PDF {
                     if ($i == $j) {
                         $i++;
                     }
-                    $this->cell($w, $h, substr($s, $j, $i - $j), 0, 2, '', false, $link);
+                    $this->cell(substr($s, $j, $i - $j), $w, $h, 0, 2, '', false, $link);
                 } else {
-                    $this->cell($w, $h, substr($s, $j, $sep - $j), 0, 2, '', false, $link);
+                    $this->cell(substr($s, $j, $sep - $j), $w, $h, 0, 2, '', false, $link);
                     $i = $sep + 1;
                 }
                 $sep = -1;
@@ -910,7 +910,7 @@ class PDF {
         }
         // Last chunk
         if ($i != $j) {
-            $this->cell($l / 1000 * $this->fontSize, $h, substr($s, $j), 0, 0, '', false, $link);
+            $this->cell(substr($s, $j), $l / 1000 * $this->fontSize, $h, 0, 0, '', false, $link);
         }
     }
 
