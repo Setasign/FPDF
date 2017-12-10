@@ -6,7 +6,7 @@ if (file_exists($vendorAutoload)){
     require('../fpdf.php');
 }
 
-class PDF extends FPDF
+class PDFtuto4 extends FPDF
 {
     protected $col = 0; // Current column
     protected $y0;      // Ordinate of column start
@@ -101,11 +101,10 @@ class PDF extends FPDF
     }
 }
 
-$pdf = new PDF();
+$pdf = new PDFtuto4();
 $title = '20000 Leagues Under the Seas';
 $pdf->SetTitle($title);
 $pdf->SetAuthor('Jules Verne');
 $pdf->PrintChapter(1, 'A RUNAWAY REEF', '20k_c1.txt');
 $pdf->PrintChapter(2, 'THE PROS AND CONS', '20k_c2.txt');
 $pdf->Output();
-?>

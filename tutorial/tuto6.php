@@ -6,7 +6,7 @@ if (file_exists($vendorAutoload)) {
     require('../fpdf.php');
 }
 
-class PDF extends FPDF
+class PDFTuto6 extends FPDF
 {
     protected $B = 0;
     protected $I = 0;
@@ -99,7 +99,7 @@ $html = 'You can now easily print text mixing different styles: <b>bold</b>, <i>
 <u>underlined</u>, or <b><i><u>all at once</u></i></b>!<br><br>You can also insert links on
 text, such as <a href="http://www.fpdf.org">www.fpdf.org</a>, or on an image: click on the logo.';
 
-$pdf = new PDF();
+$pdf = new PDFTuto6();
 // First page
 $pdf->AddPage();
 $pdf->SetFont('Arial', '', 20);

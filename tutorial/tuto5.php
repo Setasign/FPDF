@@ -6,7 +6,7 @@ if (file_exists($vendorAutoload)) {
     require('../fpdf.php');
 }
 
-class PDF extends FPDF
+class PDFTuto5 extends FPDF
 {
 // Load data
     function LoadData($file)
@@ -93,7 +93,7 @@ class PDF extends FPDF
     }
 }
 
-$pdf = new PDF();
+$pdf = new PDFTuto5();
 // Column headings
 $header = array('Country', 'Capital', 'Area (sq km)', 'Pop. (thousands)');
 // Data loading

@@ -6,7 +6,7 @@ if (file_exists($vendorAutoload)){
     require('../fpdf.php');
 }
 
-class PDF extends FPDF
+class PDFTuto3 extends FPDF
 {
     function Header()
     {
@@ -76,7 +76,7 @@ class PDF extends FPDF
     }
 }
 
-$pdf = new PDF();
+$pdf = new PDFTuto3();
 $title = '20000 Leagues Under the Seas';
 $pdf->SetTitle($title);
 $pdf->SetAuthor('Jules Verne');

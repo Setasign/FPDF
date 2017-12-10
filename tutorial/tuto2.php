@@ -6,7 +6,7 @@ if (file_exists($vendorAutoload)) {
     require('../fpdf.php');
 }
 
-class PDF extends FPDF
+class PDFTuto2 extends FPDF
 {
 // Page header
     function Header()
@@ -36,7 +36,7 @@ class PDF extends FPDF
 }
 
 // Instanciation of inherited class
-$pdf = new PDF();
+$pdf = new PDFTuto2();
 $pdf->AliasNbPages();
 $pdf->AddPage();
 $pdf->SetFont('Times', '', 12);
