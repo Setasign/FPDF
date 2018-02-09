@@ -959,6 +959,12 @@ function GetY()
 	return $this->y;
 }
 
+function GetK()
+{
+	// Get k position
+	return $this->k;
+}
+	
 function SetY($y, $resetX=true)
 {
 	// Set y position and optionally reset x
