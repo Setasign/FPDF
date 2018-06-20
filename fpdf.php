@@ -11,6 +11,7 @@ define('FPDF_VERSION','1.81');
 
 class FPDF
 {
+protected $utf8decode;         // decode utf8 string
 protected $page;               // current page number
 protected $n;                  // current object number
 protected $offsets;            // array of object offsets
@@ -167,6 +168,11 @@ function __construct($orientation='P', $unit='mm', $size='A4')
 	$this->SetCompression(true);
 	// Set default PDF version number
 	$this->PDFVersion = '1.3';
+}
+
+function SetUTF8Decode(bool $decode = true)
+{
+    $this->utf8decode = $decode;
 }
 
 function SetMargins($left, $top, $right=null)
@@ -556,6 +562,9 @@ function Link($x, $y, $w, $h, $link)
 
 function Text($x, $y, $txt)
 {
+    if ($this->utf8decode)
+        $txt = utf8_decode($txt);
+
 	// Output a string
 	if(!isset($this->CurrentFont))
 		$this->Error('No font has been set');
@@ -575,6 +584,9 @@ function AcceptPageBreak()
 
 function Cell($w, $h=0, $txt='', $border=0, $ln=0, $align='', $fill=false, $link='')
 {
+    if ($this->utf8decode)
+        $txt = utf8_decode($txt);
+
 	// Output a cell
 	$k = $this->k;
 	if($this->y+$h>$this->PageBreakTrigger && !$this->InHeader && !$this->InFooter && $this->AcceptPageBreak())
