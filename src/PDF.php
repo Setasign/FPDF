@@ -942,7 +942,7 @@ class PDF {
             if ($type == 'jpeg') {
                 $type = 'jpg';
             }
-            $mtd = '_parse' . $type;
+            $mtd = '_parse' . ucfirst($type);
             if (!method_exists($this, $mtd)) {
                 $this->error('Unsupported image type: ' . $type);
             }
