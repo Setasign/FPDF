@@ -1845,7 +1845,7 @@ class PDF {
         $this->_newObj();
         $info['n'] = $this->n;
         $this->_put('<</Type /XObject');
-        $this->_put('/Subtype /image');
+        $this->_put('/Subtype /Image');
         $this->_put('/Width ' . $info['w']);
         $this->_put('/Height ' . $info['h']);
         if ($info['cs'] == 'Indexed') {
