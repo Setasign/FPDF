@@ -157,7 +157,7 @@ class PDF {
         // Line width (0.2 mm)
         $this->lineWidth = .567 / $this->k;
         // Automatic page break
-        $this->setautoPageBreak(true);
+        $this->setAutoPageBreak(true);
         // Default display mode
         $this->setDisplayMode('default');
         // Enable compression
@@ -211,7 +211,7 @@ class PDF {
     /**
      * Set auto page break mode and triggering margin
      */
-    public function setautoPageBreak($auto) {
+    public function setAutoPageBreak($auto) {
         $this->autoPageBreak = $auto;
         //$this->bottomMargin = $margin;
     }
@@ -637,7 +637,7 @@ class PDF {
         $this->_out($s);
     }
 
-    public function isautoPageBreak() {
+    public function isAutoPageBreak() {
         // Accept automatic page break or not
         return $this->autoPageBreak;
     }
@@ -974,7 +974,7 @@ class PDF {
 
         // Flowing mode
         if ($y === null) {
-            if ($this->y + $h > $this->pageBreakTrigger && !$this->inHeader && !$this->inFooter && $this->acceptPageBreak()) {
+            if ($this->y + $h > $this->pageBreakTrigger && !$this->inHeader && !$this->inFooter && $this->autoPageBreak) {
                 // Automatic page break
                 $x2 = $this->x;
                 $this->addPage($this->curOrientation, $this->curPageSize, $this->curRotation);
