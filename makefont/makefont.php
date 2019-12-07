@@ -2,8 +2,8 @@
 /*******************************************************************************
 * Utility to generate font definition files                                    *
 *                                                                              *
-* Version: 1.3                                                                 *
-* Date:    2015-11-29                                                          *
+* Version: 1.31                                                                *
+* Date:    2019-12-07                                                          *
 * Author:  Olivier PLATHEY                                                     *
 *******************************************************************************/
 
@@ -384,10 +384,6 @@ function MakeDefinitionFile($file, $type, $enc, $embed, $subset, $map, $info)
 function MakeFont($fontfile, $enc='cp1252', $embed=true, $subset=true)
 {
 	// Generate a font definition file
-	if(get_magic_quotes_runtime())
-		@set_magic_quotes_runtime(false);
-	ini_set('auto_detect_line_endings', '1');
-
 	if(!file_exists($fontfile))
 		Error('Font file not found: '.$fontfile);
 	$ext = strtolower(substr($fontfile,-3));
