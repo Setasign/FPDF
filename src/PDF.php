@@ -2,7 +2,7 @@
 
 namespace IFPDF;
 
-const IFPDF_VERSION = '1.0.0';
+const IFPDF_VERSION = '1.0.1';
 
 /**
  *   PHP class which allows to generate PDF files with pure PHP
@@ -298,9 +298,7 @@ class PDF {
         }
         // Page footer
         $this->inFooter = true;
-        if($this->footer and is_callable($this->footer)) {
-            call_user_func($this->footer, $this);
-        }
+        $this->footer();
         $this->inFooter = false;
         // Close page
         $this->_endPage();
@@ -324,9 +322,7 @@ class PDF {
         if ($this->page > 0) {
             // Page footer
             $this->inFooter = true;
-            if($this->footer and is_callable($this->footer)) {
-                call_user_func($this->footer, $this);
-            }
+            $this->footer();
             $this->inFooter = false;
             // Close page
             $this->_endPage();
@@ -355,9 +351,7 @@ class PDF {
         $this->colorFlag = $cf;
         // Page header
         $this->inHeader = true;
-        if($this->header && is_callable($this->header)) {
-            call_user_func($this->header, $this);
-        }
+        $this->header();
         $this->inHeader = false;
         // Restore line width
         if ($this->lineWidth != $lw) {
@@ -1156,8 +1150,10 @@ class PDF {
             $this->error('mbstring overloading must be disabled');
         }
         // Ensure runtime magic quotes are disabled
-        if (get_magic_quotes_runtime()) {
-            @set_magic_quotes_runtime(0);
+        if(version_compare(PHP_VERSION, '7.0.0', '<')) {
+            if (@get_magic_quotes_runtime()) {
+                @set_magic_quotes_runtime(false);
+            }
         }
     }
 
@@ -1918,7 +1914,7 @@ class PDF {
     }
 
     protected function _putInfo() {
-        $this->metadata['Producer'] = 'FPDF ' . IFPDF_VERSION;
+        $this->metadata['Producer'] = 'IFPDF ' . IFPDF_VERSION;
         $this->metadata['CreationDate'] = 'D:' . date('YmdHis');
         foreach ($this->metadata as $key => $value) {
             $this->_put('/' . $key . ' ' . $this->_textString($value));
@@ -1990,6 +1986,14 @@ class PDF {
         $this->_put($offset);
         $this->_put('%%EOF');
         $this->state = 3;
+    }
+
+    protected function header() {
+
+    }
+
+    protected function footer() {
+        
     }
 
 }
