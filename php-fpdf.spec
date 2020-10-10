@@ -57,7 +57,7 @@ rm -rf %{buildroot}
 
 %files doc
 %defattr(-,root,root,-)
-%doc FAQ.htm doc histo.htm install.txt license.txt tutorial
+%doc FAQ.htm doc changelog.htm install.txt license.txt tutorial
 
 
 %changelog
