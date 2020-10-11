@@ -6,7 +6,7 @@ License:   MIT
 Summary:   PHP class to generate PDF Files 
 Group:     Development/Libraries
 URL:       http://www.fpdf.org
-# Upstream uses a troublesome URL for source.  Greb it from the Github reference below.
+# Upstream uses a troublesome URL for source.  Grab it from the Github reference below.
 
 Source:    https://github.com/Setasign/FPDF/archive/%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
