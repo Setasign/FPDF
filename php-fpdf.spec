@@ -1,7 +1,7 @@
 %global php_libname          fpdf
 Name:      php-fpdf
-Version:   1.7
-Release:   14%{?dist}
+Version:   1.8.2
+Release:   15%{?dist}
 License:   MIT
 Summary:   PHP class to generate PDF Files 
 Group:     Development/Libraries
@@ -61,6 +61,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sat Oct 10 2020 Bishop <bishopolis@gmail.com> - 1.8.2-15
+- Upstream release
+
 * Sat Oct 10 2020 Bishop <bishopolis@gmail.com> - 1.7-14
 - Fixed URL in spec for github upstream
 
