@@ -2,8 +2,8 @@
 /*******************************************************************************
 * Class to parse and subset TrueType fonts                                     *
 *                                                                              *
-* Version: 1.1                                                                 *
-* Date:    2015-11-29                                                          *
+* Version: 1.11                                                                *
+* Date:    2021-04-18                                                          *
 * Author:  Olivier PLATHEY                                                     *
 *******************************************************************************/
 
@@ -75,7 +75,7 @@ class TTFParser
 			$tag = $this->Read(4);
 			$checkSum = $this->Read(4);
 			$offset = $this->ReadULong();
-			$length = $this->ReadULong(4);
+			$length = $this->ReadULong();
 			$this->tables[$tag] = array('offset'=>$offset, 'length'=>$length, 'checkSum'=>$checkSum);
 		}
 	}	
@@ -354,15 +354,7 @@ class TTFParser
 
 	function Subset($chars)
 	{
-/*		$chars = array_keys($this->chars);
-		$this->subsettedChars = $chars;
 		$this->subsettedGlyphs = array();
-		for($i=0;$i<$this->numGlyphs;$i++)
-		{
-			$this->subsettedGlyphs[] = $i;
-			$this->glyphs[$i]['ssid'] = $i;
-		}*/
-
 		$this->AddGlyph(0);
 		$this->subsettedChars = array();
 		foreach($chars as $char)
@@ -607,7 +599,6 @@ class TTFParser
 			$this->tables[$tag]['offset'] = $offset;
 			$offset += strlen($this->tables[$tag]['data']);
 		}
-//		$this->tables['head']['data'] = substr_replace($this->tables['head']['data'], "\x00\x00\x00\x00", 8, 4);
 
 		// Build offset table
 		$entrySelector = 0;

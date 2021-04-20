@@ -46,17 +46,16 @@ freely in your application (commercial or not), with or without modifications.
 <p><b>2.</b> <span class='question'>I get the following error when I try to generate a PDF: Some data has already been output, can't send PDF file</span></p>
 You must send nothing to the browser except the PDF itself: no HTML, no space, no carriage return. A common
 case is having extra blank at the end of an included script file.<br>
-If you can't figure out where the problem comes from, this other message appearing just before can help you:<br>
+If you can't figure out where the problem comes from, this other message appearing just before will help you:<br>
 <br>
 <b>Warning:</b> Cannot modify header information - headers already sent by (output started at script.php:X)<br>
 <br>
-It means that script.php outputs something at line X. Go to this line and fix it.
-In case the message doesn't show, first check that you didn't disable warnings, then add this at the very
-beginning of your script:
+It means that script.php outputs something at line X. Go to that line and fix it.
+In case the message doesn't show, check if PHP warnings are enabled. If they are not, enable them. If they are,
+try adding this at the very beginning of your script:
 <div class="doc-source">
 <pre><code>ob_end_clean();</code></pre>
 </div>
-If you still don't see it, disable zlib.output_compression in your php.ini and it should appear.
 </li>
 
 <li id='q3'>
