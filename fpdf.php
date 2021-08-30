@@ -2,12 +2,12 @@
 /*******************************************************************************
 * FPDF                                                                         *
 *                                                                              *
-* Version: 1.83                                                                *
-* Date:    2021-04-18                                                          *
+* Version: 1.84                                                                *
+* Date:    2021-08-28                                                          *
 * Author:  Olivier PLATHEY                                                     *
 *******************************************************************************/
 
-define('FPDF_VERSION','1.83');
+define('FPDF_VERSION','1.84');
 
 class FPDF
 {
@@ -1521,6 +1521,7 @@ protected function _putpage($n)
 	// Annotations
 	foreach($this->PageLinks[$n] as $pl)
 	{
+		$this->_newobj();
 		$rect = sprintf('%.2F %.2F %.2F %.2F',$pl[0],$pl[1],$pl[0]+$pl[2],$pl[1]-$pl[3]);
 		$s = '<</Type /Annot /Subtype /Link /Rect ['.$rect.'] /Border [0 0 0] ';
 		if(is_string($pl[4]))
@@ -1534,7 +1535,6 @@ protected function _putpage($n)
 				$h = ($this->DefOrientation=='P') ? $this->DefPageSize[1]*$this->k : $this->DefPageSize[0]*$this->k;
 			$s .= sprintf('/Dest [%d 0 R /XYZ 0 %.2F null]>>',$this->PageInfo[$l[0]]['n'],$h-$l[1]*$this->k);
 		}
-		$this->_newobj();
 		$this->_put($s);
 		$this->_put('endobj');
 	}

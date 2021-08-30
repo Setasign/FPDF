@@ -140,30 +140,25 @@ had worked with Comic Sans MS Bold (comicbd.ttf), we would have written:
 </div>
 
 <h2>Example</h2>
-Let's now see a complete example. We will use the font <a href="http://www.abstractfonts.com/font/52" target="_blank">Calligrapher</a>.
+Now let's see a complete example. We will use the <a href="https://fonts.google.com/specimen/Ceviche+One" target="_blank">Ceviche One</a> font.
 The first step is the generation of the font files:
 <div class="source">
 <pre><code>&lt;?php
 <span class="kw">require(</span><span class="str">'makefont/makefont.php'</span><span class="kw">);
 
-</span>MakeFont<span class="kw">(</span><span class="str">'calligra.ttf'</span><span class="kw">,</span><span class="str">'cp1252'</span><span class="kw">);
+</span>MakeFont<span class="kw">(</span><span class="str">'CevicheOne-Regular.ttf'</span><span class="kw">,</span><span class="str">'cp1252'</span><span class="kw">);
 </span>?&gt;</code></pre>
 </div>
-The script gives the following report:
+The script produces the following output:
 <br>
 <br>
-<b>Warning:</b> character Euro is missing<br>
-<b>Warning:</b> character zcaron is missing<br>
-Font file compressed: calligra.z<br>
-Font definition file generated: calligra.php<br>
-<br>
-The euro character is not present in the font (it's too old). Another character is missing too.
-<br>
+Font file compressed: CevicheOne-Regular.z<br>
+Font definition file generated: CevicheOne-Regular.php<br>
 <br>
 Alternatively we could have used the command line:
 <br>
 <br>
-<kbd>php makefont\makefont.php calligra.ttf cp1252</kbd>
+<kbd>php makefont\makefont.php CevicheOne-Regular.ttf cp1252</kbd>
 <br>
 <br>
 or used the online generator.
@@ -175,9 +170,9 @@ We can now copy the two generated files to the font directory and write the scri
 <span class="kw">require(</span><span class="str">'fpdf.php'</span><span class="kw">);
 
 </span>$pdf <span class="kw">= new </span>FPDF<span class="kw">();
-</span>$pdf<span class="kw">-&gt;</span>AddFont<span class="kw">(</span><span class="str">'Calligrapher'</span><span class="kw">,</span><span class="str">''</span><span class="kw">,</span><span class="str">'calligra.php'</span><span class="kw">);
+</span>$pdf<span class="kw">-&gt;</span>AddFont<span class="kw">(</span><span class="str">'CevicheOne'</span><span class="kw">,</span><span class="str">''</span><span class="kw">,</span><span class="str">'CevicheOne-Regular.php'</span><span class="kw">);
 </span>$pdf<span class="kw">-&gt;</span>AddPage<span class="kw">();
-</span>$pdf<span class="kw">-&gt;</span>SetFont<span class="kw">(</span><span class="str">'Calligrapher'</span><span class="kw">,</span><span class="str">''</span><span class="kw">,</span>35<span class="kw">);
+</span>$pdf<span class="kw">-&gt;</span>SetFont<span class="kw">(</span><span class="str">'CevicheOne'</span><span class="kw">,</span><span class="str">''</span><span class="kw">,</span>35<span class="kw">);
 </span>$pdf<span class="kw">-&gt;</span>Write<span class="kw">(</span>10<span class="kw">,</span><span class="str">'Enjoy new fonts with FPDF!'</span><span class="kw">);
 </span>$pdf<span class="kw">-&gt;</span>Output<span class="kw">();
 </span>?&gt;</code></pre>
