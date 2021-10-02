@@ -977,7 +977,7 @@ function SetXY($x, $y)
 	$this->SetY($y,false);
 }
 
-function Output($dest='', $name='', $isUTF8=false)
+function Output($dest='', $name='', $isUTF8=false, $header=true)
 {
 	// Output PDF to some destination
 	$this->Close();
@@ -997,7 +997,7 @@ function Output($dest='', $name='', $isUTF8=false)
 		case 'I':
 			// Send to standard output
 			$this->_checkoutput();
-			if(PHP_SAPI!='cli')
+			if(PHP_SAPI!='cli' && $header==true)
 			{
 				// We send to a browser
 				header('Content-Type: application/pdf');
