@@ -1,11 +1,11 @@
 <?php
-define('FPDF_FONTPATH','.');
-require('../fpdf.php');
+define('FPDF_FONTPATH', '.');
 
-$pdf = new FPDF();
-$pdf->AddFont('CevicheOne','','CevicheOne-Regular.php');
-$pdf->AddPage();
-$pdf->SetFont('CevicheOne','',45);
-$pdf->Cell(0,10,'Enjoy new fonts with FPDF!');
-$pdf->Output();
-?>
+include '../vendor/autoload.php';
+
+$pdf = new FPDF\FPDF();
+$pdf->addFont('CevicheOne', '', 'CevicheOne-Regular.php');
+$pdf->addPage();
+$pdf->setFont('CevicheOne', '', 45);
+$pdf->cell(0, 10, 'Enjoy new fonts with FPDF!');
+$pdf->output();

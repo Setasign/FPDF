@@ -1,92 +1,96 @@
 <?php
-require('../fpdf.php');
+
+use FPDF\FPDF;
+
+include '../vendor/autoload.php';
 
 class PDF extends FPDF
 {
-protected $B = 0;
-protected $I = 0;
-protected $U = 0;
-protected $HREF = '';
+    protected $b = 0;
+    protected $i = 0;
+    protected $u = 0;
+    protected $href = '';
 
-function WriteHTML($html)
-{
-	// HTML parser
-	$html = str_replace("\n",' ',$html);
-	$a = preg_split('/<(.*)>/U',$html,-1,PREG_SPLIT_DELIM_CAPTURE);
-	foreach($a as $i=>$e)
-	{
-		if($i%2==0)
-		{
-			// Text
-			if($this->HREF)
-				$this->PutLink($this->HREF,$e);
-			else
-				$this->Write(5,$e);
-		}
-		else
-		{
-			// Tag
-			if($e[0]=='/')
-				$this->CloseTag(strtoupper(substr($e,1)));
-			else
-			{
-				// Extract attributes
-				$a2 = explode(' ',$e);
-				$tag = strtoupper(array_shift($a2));
-				$attr = array();
-				foreach($a2 as $v)
-				{
-					if(preg_match('/([^=]*)=["\']?([^"\']*)/',$v,$a3))
-						$attr[strtoupper($a3[1])] = $a3[2];
-				}
-				$this->OpenTag($tag,$attr);
-			}
-		}
-	}
-}
+    function writeHTML($html)
+    {
+        // HTML parser
+        $html = str_replace("\n", ' ', $html);
+        $a = preg_split('/<(.*)>/U', $html, -1, PREG_SPLIT_DELIM_CAPTURE);
+        foreach ($a as $i => $e) {
+            if ($i % 2 == 0) {
+                // Text
+                if ($this->href) {
+                    $this->putLink($this->href, $e);
+                } else {
+                    $this->write(5, $e);
+                }
+            } else {
+                // Tag
+                if ($e[0] == '/') {
+                    $this->closeTag(strtoupper(substr($e, 1)));
+                } else {
+                    // Extract attributes
+                    $a2 = explode(' ', $e);
+                    $tag = strtoupper(array_shift($a2));
+                    $attr = array();
+                    foreach ($a2 as $v) {
+                        if (preg_match('/([^=]*)=["\']?([^"\']*)/', $v, $a3)) {
+                            $attr[strtoupper($a3[1])] = $a3[2];
+                        }
+                    }
+                    $this->openTag($tag, $attr);
+                }
+            }
+        }
+    }
 
-function OpenTag($tag, $attr)
-{
-	// Opening tag
-	if($tag=='B' || $tag=='I' || $tag=='U')
-		$this->SetStyle($tag,true);
-	if($tag=='A')
-		$this->HREF = $attr['HREF'];
-	if($tag=='BR')
-		$this->Ln(5);
-}
+    function openTag($tag, $attr)
+    {
+        // Opening tag
+        if ($tag == 'B' || $tag == 'I' || $tag == 'U') {
+            $this->setStyle($tag, true);
+        }
+        if ($tag == 'A') {
+            $this->href = $attr['HREF'];
+        }
+        if ($tag == 'BR') {
+            $this->Ln(5);
+        }
+    }
 
-function CloseTag($tag)
-{
-	// Closing tag
-	if($tag=='B' || $tag=='I' || $tag=='U')
-		$this->SetStyle($tag,false);
-	if($tag=='A')
-		$this->HREF = '';
-}
+    function closeTag($tag)
+    {
+        // Closing tag
+        if ($tag == 'B' || $tag == 'I' || $tag == 'U') {
+            $this->setStyle($tag, false);
+        }
+        if ($tag == 'A') {
+            $this->href = '';
+        }
+    }
 
-function SetStyle($tag, $enable)
-{
-	// Modify style and select corresponding font
-	$this->$tag += ($enable ? 1 : -1);
-	$style = '';
-	foreach(array('B', 'I', 'U') as $s)
-	{
-		if($this->$s>0)
-			$style .= $s;
-	}
-	$this->SetFont('',$style);
-}
+    function setStyle($tag, $enable)
+    {
+        // Modify style and select corresponding font
+        $this->$tag += ($enable ? 1 : -1);
+        $style = '';
+        foreach (array('B', 'I', 'U') as $s) {
+            if ($this->$s > 0) {
+                $style .= $s;
+            }
+        }
+        $this->SetFont('', $style);
+    }
 
-function PutLink($URL, $txt)
-{
-	// Put a hyperlink
-	$this->SetTextColor(0,0,255);
-	$this->SetStyle('U',true);
-	$this->Write(5,$txt,$URL);
-	$this->SetStyle('U',false);
-	$this->SetTextColor(0);
-}
+    function putLink($URL, $txt)
+    {
+        // Put a hyperlink
+        $this->setTextColor(0, 0, 255);
+        $this->setStyle('U', true);
+        $this->write(5, $txt, $URL);
+        $this->setStyle('U', false);
+        $this->setTextColor(0);
+    }
 }
 
 $html = 'You can now easily print text mixing different styles: <b>bold</b>, <i>italic</i>,
@@ -95,19 +99,18 @@ text, such as <a href="http://www.fpdf.org">www.fpdf.org</a>, or on an image: cl
 
 $pdf = new PDF();
 // First page
-$pdf->AddPage();
-$pdf->SetFont('Arial','',20);
-$pdf->Write(5,"To find out what's new in this tutorial, click ");
-$pdf->SetFont('','U');
-$link = $pdf->AddLink();
-$pdf->Write(5,'here',$link);
-$pdf->SetFont('');
+$pdf->addPage();
+$pdf->setFont('Arial', '', 20);
+$pdf->write(5, "To find out what's new in this tutorial, click ");
+$pdf->setFont('', 'U');
+$link = $pdf->addLink();
+$pdf->write(5, 'here', $link);
+$pdf->setFont('');
 // Second page
-$pdf->AddPage();
-$pdf->SetLink($link);
-$pdf->Image('logo.png',10,12,30,0,'','http://www.fpdf.org');
-$pdf->SetLeftMargin(45);
-$pdf->SetFontSize(14);
-$pdf->WriteHTML($html);
-$pdf->Output();
-?>
+$pdf->addPage();
+$pdf->setLink($link);
+$pdf->image('logo.png', 10, 12, 30, 0, '', 'http://www.fpdf.org');
+$pdf->setLeftMargin(45);
+$pdf->setFontSize(14);
+$pdf->writeHTML($html);
+$pdf->output();
