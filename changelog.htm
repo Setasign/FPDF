@@ -11,6 +11,14 @@ dd {margin:1em 0 1em 1em}
 <body>
 <h1>Changelog</h1>
 <dl>
+<dt><strong>v1.85</strong> (2022-11-10)</dt>
+<dd>
+- Removed deprecation notices on PHP 8.2.<br>
+- Removed notices when passing null values instead of strings.<br>
+- The FPDF_VERSION constant was replaced by a class constant.<br>
+- The creation date of the PDF now includes the timezone.<br>
+- The content-type is now always application/pdf, even for downloads.<br>
+</dd>
 <dt><strong>v1.84</strong> (2021-08-28)</dt>
 <dd>
 - Fixed an issue related to annotations.<br>
@@ -21,7 +29,7 @@ dd {margin:1em 0 1em 1em}
 </dd>
 <dt><strong>v1.82</strong> (2019-12-07)</dt>
 <dd>
-- Removed a deprecation notice under PHP 7.4.<br>
+- Removed a deprecation notice on PHP 7.4.<br>
 </dd>
 <dt><strong>v1.81</strong> (2015-12-20)</dt>
 <dd>
@@ -94,7 +102,7 @@ dd {margin:1em 0 1em 1em}
 <dd>
 - Type1 font support.<br>
 - Added Baltic encoding.<br>
-- The class now works internally in points with the origin at the bottom in order to avoid two bugs occurring with Acrobat 5:<br>&nbsp;&nbsp;* The line thickness was too large when printed under Windows 98 SE and ME.<br>&nbsp;&nbsp;* TrueType fonts didn't appear immediately inside the plug-in (a substitution font was used), one had to cause a window refresh to make them show up.<br>
+- The class now works internally in points with the origin at the bottom in order to avoid two bugs occurring with Acrobat 5:<br>&nbsp;&nbsp;* The line thickness was too large when printed on Windows 98 SE and ME.<br>&nbsp;&nbsp;* TrueType fonts didn't appear immediately inside the plug-in (a substitution font was used), one had to cause a window refresh to make them show up.<br>
 - It's no longer necessary to set the decimal separator as dot to produce valid documents.<br>
 - The clickable area in a cell was always on the left independently from the text alignment.<br>
 - JPEG images in CMYK mode appeared in inverted colors.<br>

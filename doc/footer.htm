@@ -16,15 +16,15 @@ empty, so you have to subclass it and override the method if you want a specific
 <div class="doc-source">
 <pre><code>class PDF extends FPDF
 {
-function Footer()
-{
-    // Go to 1.5 cm from bottom
-    $this-&gt;SetY(-15);
-    // Select Arial italic 8
-    $this-&gt;SetFont('Arial','I',8);
-    // Print centered page number
-    $this-&gt;Cell(0,10,'Page '.$this-&gt;PageNo(),0,0,'C');
-}
+    function Footer()
+    {
+        // Go to 1.5 cm from bottom
+        $this-&gt;SetY(-15);
+        // Select Arial italic 8
+        $this-&gt;SetFont('Arial', 'I', 8);
+        // Print centered page number
+        $this-&gt;Cell(0, 10, 'Page '.$this-&gt;PageNo(), 0, 0, 'C');
+    }
 }</code></pre>
 </div>
 <h2>See also</h2>

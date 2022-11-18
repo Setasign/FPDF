@@ -46,13 +46,13 @@ freely in your application (commercial or not), with or without modifications.
 <p><b>2.</b> <span class='question'>I get the following error when I try to generate a PDF: Some data has already been output, can't send PDF file</span></p>
 You must send nothing to the browser except the PDF itself: no HTML, no space, no carriage return. A common
 case is having extra blank at the end of an included script file.<br>
-If you can't figure out where the problem comes from, this other message appearing just before will help you:<br>
 <br>
-<b>Warning:</b> Cannot modify header information - headers already sent by (output started at script.php:X)<br>
+The message may be followed by this indication:<br>
 <br>
-It means that script.php outputs something at line X. Go to that line and fix it.
-In case the message doesn't show, check if PHP warnings are enabled. If they are not, enable them. If they are,
-try adding this at the very beginning of your script:
+(output started at script.php:X)<br>
+<br>
+which gives you exactly the script and line number responsible for the output. If you don't see it,
+try adding this line at the very beginning of your script:
 <div class="doc-source">
 <pre><code>ob_end_clean();</code></pre>
 </div>
@@ -60,15 +60,14 @@ try adding this at the very beginning of your script:
 
 <li id='q3'>
 <p><b>3.</b> <span class='question'>Accented letters are replaced with some strange characters like é.</span></p>
-Don't use UTF-8 with the standard fonts; they expect text encoded in ISO-8859-1 or windows-1252.
-You can use utf8_decode() to perform a conversion to ISO-8859-1:
-<div class="doc-source">
-<pre><code>$str = utf8_decode($str);</code></pre>
-</div>
-But some characters such as Euro won't be translated correctly. If the iconv extension is available, the
-right way to do it is the following:
+Don't use UTF-8 with the standard fonts; they expect text encoded in windows-1252.
+You can perform a conversion with iconv:
 <div class="doc-source">
 <pre><code>$str = iconv('UTF-8', 'windows-1252', $str);</code></pre>
+</div>
+Or with mbstring:
+<div class="doc-source">
+<pre><code>$str = mb_convert_encoding($str, 'windows-1252', 'UTF-8');</code></pre>
 </div>
 In case you need characters outside windows-1252, take a look at tutorial #7 or
 <a href="http://www.fpdf.org/?go=script&amp;id=92" target="_blank">tFPDF</a>.
