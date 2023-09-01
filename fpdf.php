@@ -2,8 +2,8 @@
 /*******************************************************************************
 * FPDF                                                                         *
 *                                                                              *
-* Version: 1.86                                                                *
-* Date:    2023-06-25                                                          *
+* Version: 1.87                                                                *
+* Date:    2023-09-01                                                          *
 * Author:  Olivier PLATHEY                                                     *
 *******************************************************************************/
 
@@ -591,12 +591,12 @@ function Cell($w, $h=0, $txt='', $border=0, $ln=0, $align='', $fill=false, $link
 			$this->ws = 0;
 			$this->_out('0 Tw');
 		}
-		$this->AddPage($this->CurOrientation,$this->CurPageSize,$this->CurRotation);
+		$this->AddPage($this->CurOrientation, $this->CurPageSize, $this->CurRotation);
 		$this->x = $x;
 		if($ws>0)
 		{
 			$this->ws = $ws;
-			$this->_out(sprintf('%.3F Tw',$ws*$k));
+			$this->_out(sprintf('%.3F Tw', $ws*$k));
 		}
 	}
 	if($w==0)
@@ -608,22 +608,33 @@ function Cell($w, $h=0, $txt='', $border=0, $ln=0, $align='', $fill=false, $link
 			$op = ($border==1) ? 'B' : 'f';
 		else
 			$op = 'S';
-		$s = sprintf('%.2F %.2F %.2F %.2F re %s ',$this->x*$k,($this->h-$this->y)*$k,$w*$k,-$h*$k,$op);
+		$s = sprintf('%.2F %.2F %.2F %.2F re %s ', $this->x*$k, ($this->h-$this->y)*$k, $w*$k, -$h*$k, $op);
 	}
+	
+	if(is_array($border))
+	{
+		$borderStr = '';
+		foreach($border as $b)
+		{
+			$borderStr .= $b;
+		}
+		$border = $borderStr;
+	}
+	
 	if(is_string($border))
 	{
 		$x = $this->x;
 		$y = $this->y;
 		if(strpos($border,'L')!==false)
-			$s .= sprintf('%.2F %.2F m %.2F %.2F l S ',$x*$k,($this->h-$y)*$k,$x*$k,($this->h-($y+$h))*$k);
+			$s .= sprintf('%.2F %.2F m %.2F %.2F l S ', $x*$k, ($this->h-$y)*$k, $x*$k, ($this->h-($y+$h))*$k);
 		if(strpos($border,'T')!==false)
-			$s .= sprintf('%.2F %.2F m %.2F %.2F l S ',$x*$k,($this->h-$y)*$k,($x+$w)*$k,($this->h-$y)*$k);
+			$s .= sprintf('%.2F %.2F m %.2F %.2F l S ', $x*$k, ($this->h-$y)*$k, ($x+$w)*$k, ($this->h-$y)*$k);
 		if(strpos($border,'R')!==false)
-			$s .= sprintf('%.2F %.2F m %.2F %.2F l S ',($x+$w)*$k,($this->h-$y)*$k,($x+$w)*$k,($this->h-($y+$h))*$k);
+			$s .= sprintf('%.2F %.2F m %.2F %.2F l S ', ($x+$w)*$k, ($this->h-$y)*$k, ($x+$w)*$k, ($this->h-($y+$h))*$k);
 		if(strpos($border,'B')!==false)
-			$s .= sprintf('%.2F %.2F m %.2F %.2F l S ',$x*$k,($this->h-($y+$h))*$k,($x+$w)*$k,($this->h-($y+$h))*$k);
+			$s .= sprintf('%.2F %.2F m %.2F %.2F l S ', $x*$k, ($this->h-($y+$h))*$k, ($x+$w)*$k, ($this->h-($y+$h))*$k);
 	}
-	$txt = (string)$txt;
+	
 	if($txt!=='')
 	{
 		if(!isset($this->CurrentFont))
@@ -635,21 +646,22 @@ function Cell($w, $h=0, $txt='', $border=0, $ln=0, $align='', $fill=false, $link
 		else
 			$dx = $this->cMargin;
 		if($this->ColorFlag)
-			$s .= 'q '.$this->TextColor.' ';
-		$s .= sprintf('BT %.2F %.2F Td (%s) Tj ET',($this->x+$dx)*$k,($this->h-($this->y+.5*$h+.3*$this->FontSize))*$k,$this->_escape($txt));
+			$s .= 'q ' . $this->TextColor . ' ';
+		$s .= sprintf('BT %.2F %.2F Td (%s) Tj ET', ($this->x+$dx)*$k, ($this->h-($this->y+.5*$h+.3*$this->FontSize))*$k, $this->_escape($txt));
 		if($this->underline)
-			$s .= ' '.$this->_dounderline($this->x+$dx,$this->y+.5*$h+.3*$this->FontSize,$txt);
+			$s .= ' ' . $this->_dounderline($this->x+$dx, $this->y+.5*$h+.3*$this->FontSize, $txt);
 		if($this->ColorFlag)
 			$s .= ' Q';
 		if($link)
-			$this->Link($this->x+$dx,$this->y+.5*$h-.5*$this->FontSize,$this->GetStringWidth($txt),$this->FontSize,$link);
+			$this->Link($this->x+$dx, $this->y+.5*$h-.5*$this->FontSize, $this->GetStringWidth($txt), $this->FontSize, $link);
 	}
+	
 	if($s)
 		$this->_out($s);
+	
 	$this->lasth = $h;
 	if($ln>0)
 	{
-		// Go to next line
 		$this->y += $h;
 		if($ln==1)
 			$this->x = $this->lMargin;
@@ -657,6 +669,7 @@ function Cell($w, $h=0, $txt='', $border=0, $ln=0, $align='', $fill=false, $link
 	else
 		$this->x += $w;
 }
+
 
 function MultiCell($w, $h, $txt, $border=0, $align='J', $fill=false)
 {
