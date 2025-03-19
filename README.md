@@ -9,14 +9,14 @@ I added Fonts Arial Narrow, Arial Narrow Bold, and Arial Narrow Bold Italic.
 
 If you're using Composer to manage dependencies, you can use
 
-    $ composer require setasign/fpdf:^1.8
+    $ composer require cjmenciano/fpdf:^1.8
 
 or you can include the following in your composer.json file:
 
 ```json
 {
     "require": {
-        "setasign/fpdf": "^1.8"
+        "cjmenciano/fpdf": "^1.8"
     }
 }
 ```
