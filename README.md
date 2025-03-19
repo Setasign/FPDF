@@ -3,6 +3,7 @@
 **THERE WILL BE NO DEVELOPMENT IN THIS REPOSITORY!**
 
 FPDF is a PHP class which allows to generate PDF files with pure PHP. F from FPDF stands for Free: you may use it for any kind of usage and modify it to suit your needs.
+I added Fonts Arial Narrow, Arial Narrow Bold, and Arial Narrow Bold Italic.
 
 ## Installation with [Composer](https://packagist.org/packages/setasign/fpdf)
 
